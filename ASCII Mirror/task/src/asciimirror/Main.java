@@ -12,25 +12,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input the file path:");
         String filePath = scanner.nextLine();
-        File file = new File(filePath);
-
-        try (Scanner scan = new Scanner(file);
-        Scanner scan1 = new Scanner(file)) {
+        try (Scanner scan = new Scanner(new File(filePath))) {
             int maxLengthLine = Integer.MIN_VALUE;
             List<StringBuilder> stringList = new ArrayList<>();
             while (scan.hasNextLine()) {
                 String tempStr = scan.nextLine();
+                StringBuilder stringBuilder = new StringBuilder(tempStr);
                 if (tempStr.length() > maxLengthLine) {
                     maxLengthLine = tempStr.length();
                 }
-            }
-            while (scan1.hasNextLine()) {
-                String tempStr = scan1.nextLine();
-                StringBuilder stringBuilder = new StringBuilder(tempStr);
-                stringBuilder.append(" ".repeat(Math.max(0, maxLengthLine - tempStr.length())));
                 stringList.add(stringBuilder);
             }
             for (StringBuilder str : stringList) {
+                str.append(" ".repeat(Math.max(0, maxLengthLine - str.length())));
                 System.out.print(str);
                 System.out.print(" | ");
                 str.reverse();
